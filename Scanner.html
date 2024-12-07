@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      margin: 0 auto;
+      width: 80%;
+      max-width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    #qrCodeContainer {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <input type="text" id="input1" placeholder="Enter owner name" />
+    <input type="text" id="input2" placeholder="Enter vehicle number" />
+    <input type="text" id="input3" placeholder="Enter owner mobile number" />
+    <input type="text" id="input4" placeholder="Enter owner email" />
+    <button id="generateBtn">Generate QR Code</button>
+    <div id="qrCodeContainer"></div>
+    <button id="printBtn">Print QR Code</button>
+  </div>
+  <!-- Importing QRCode library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script>
+    document.getElementById("generateBtn").addEventListener("click", () => {
+      const input1 = document.getElementById("input1").value.trim();
+      const input2 = document.getElementById("input2").value.trim();
+      const input3 = document.getElementById("input3").value.trim();
+      const input4 = document.getElementById("input4").value.trim();
+
+      const combinedData = `
+        Owner Name: ${input1 || "N/A"}\n
+        Vehicle Number: ${input2 || "N/A"}\n
+        Mobile Number: ${input3 || "N/A"}\n
+        Email: ${input4 || "N/A"}
+      `.trim();
+
+      const qrCodeContainer = document.getElementById("qrCodeContainer");
+
+      if (!input1 && !input2 && !input3 && !input4) {
+        alert("Please enter at least one detail to generate the QR code.");
+        return;
+      }
+
+      qrCodeContainer.innerHTML = "";
+
+      // Generate QR code
+      QRCode.toDataURL(combinedData, { width: 200, margin: 1 }, (error, url) => {
+        if (error) {
+          console.error(error);
+          alert("Failed to generate QR code.");
+          return;
+        }
+        const img = document.createElement("img");
+        img.src = url;
+        qrCodeContainer.appendChild(img);
+      });
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      const qrCodeContainer = document.getElementById("qrCodeContainer");
+
+      if (!qrCodeContainer.querySelector("img")) {
+        alert("Please generate a QR code first.");
+        return;
+      }
+
+      // Open a new window for printing
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print QR Code</title>
+          </head>
+          <body>
+            <div style="text-align: center;">${qrCodeContainer.innerHTML}</div>
+          </body>
+        </html>
+      `);
+
+      // Ensure proper closing of document
+      printWindow.document.close();
+
+      // Focus and initiate print
+      printWindow.focus();
+      printWindow.print();
+    });
+  </script>
+</body>
+</html>

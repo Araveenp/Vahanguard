@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('edt.png');
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgb(248, 26, 26);
+            width: 300px;
+        }
+        input[type="text"], input[type="tel"],input[type="password"], input[type="submit"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #000000;
+        }
+        input[type="text"]:hover,input[type="password"]:hover, input[type="tel"]:hover{
+            border: 2px solid #fc0606;
+            border-radius: 10px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            box-shadow: 0 0 15px rgb(47, 255, 0);
+            background-color: #2ee537;
+            color: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="vehicle">Password:</label>
+        <input type="password" id="vehicle" name="vehicle" required>
+
+        <input type="submit" value="Sign Up">
+    </form>
+</div>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function(event){
+        event.preventDefault(); // Prevent form from submitting in the traditional way
+
+        // Perform validation or data saving here if needed
+
+        // Redirect to home.html after submission
+        window.location.href = "Scanner.html";
+    });
+</script>
+
+</body>
+</html>
